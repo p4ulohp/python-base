@@ -23,10 +23,15 @@ opracao: sum
 n1: 5
 n2: 4
 9
+
+Os resultados serao salvos em 'infixcalc.log'
+
 """
 
 __version__ = "0.1.0"
 
+import os
+from datetime import datetime
 import sys   #pegar os argumentos
 
 arguments = sys.argv[1:]
@@ -65,11 +70,21 @@ n1, n2 = validated_nums
 
 if operation == "sum":
     result = n1 + n2
-elif operation == "sum":
+elif operation == "sub":
     result = n1 - n2
 elif operation == "mul":
     result = n1 * n2
 elif operation == "div":
     result = n1 / n2 
+
+path = os.curdir
+filepath = os.path.join(path, "infixcalc.log")
+timestamp = datetime.now().isoformat()
+user = os.getenv('USER', 'anonymus')
+
+with open(filepath, "a") as file_:
+    file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+
+#print(f"{operation},{n1},{n2} = {result}", file=open(filepath, "a"))
 
 print(f"O resultado é {result}") 
