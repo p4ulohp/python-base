@@ -65,8 +65,12 @@ for num in nums:
     else:
         num = int(num)
     validated_nums.append(num)
+try:
+    n1, n2 = validated_nums
+except ValueError as e:
+    print(str(e))
+    sys.exit(1)
 
-n1, n2 = validated_nums
 
 if operation == "sum":
     result = n1 + n2
@@ -77,14 +81,22 @@ elif operation == "mul":
 elif operation == "div":
     result = n1 / n2 
 
-path = os.curdir
+print(f"O resultado é {result}") 
+
+path = "/"
 filepath = os.path.join(path, "infixcalc.log")
 timestamp = datetime.now().isoformat()
 user = os.getenv('USER', 'anonymus')
 
-with open(filepath, "a") as file_:
-    file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+print(f"O resultado é {result}")
+
+try:
+    with open(filepath, "a") as file_:
+        file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+except PermissionError as e:
+    # TODO: logging
+    print(str(e))
+    sys.exit(1)
 
 #print(f"{operation},{n1},{n2} = {result}", file=open(filepath, "a"))
 
-print(f"O resultado é {result}") 
