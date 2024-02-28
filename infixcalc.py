@@ -33,6 +33,25 @@ __version__ = "0.1.0"
 import os
 from datetime import datetime
 import sys   #pegar os argumentos
+import logging
+
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
+
+# nossa instancia
+log = logging.Logger("logs.py", log_level)
+
+# level
+ch = logging.StreamHandler()
+ch.setLevel(log_level)
+
+# formatacao
+fmt = logging.Formatter(
+    '%(asctime)s %(name)s %(levelname)s l%(lineno)d f:%(filename)s: %(message)s '
+)
+ch.setFormatter(fmt)
+
+# destino
+log.addHandler(ch)
 
 arguments = sys.argv[1:]
 
@@ -95,7 +114,8 @@ try:
         file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
 except PermissionError as e:
     # TODO: logging
-    print(str(e))
+    log.error((e))
+    #print(str(e))
     sys.exit(1)
 
 #print(f"{operation},{n1},{n2} = {result}", file=open(filepath, "a"))
