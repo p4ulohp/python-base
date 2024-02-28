@@ -113,7 +113,6 @@ try:
     with open(filepath, "a") as file_:
         file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
 except PermissionError as e:
-    # TODO: logging
     log.error((e))
     #print(str(e))
     sys.exit(1)
